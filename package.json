@@ -1,0 +1,18 @@
+{
+    "name"         : "node-red-contrib-roster",
+    "version"      : "0.0.3",
+    "author"	   : "Michael Karliner",
+    "description"  : "Record sucessive unique messages and delete those older than a defined age ",
+    "dependencies": {
+    },
+    "keywords": [ "node-red", "thingstudio"],
+    "repository" : { 
+	"type" : "git", 	
+	"url" : "git@github.com:mkarliner/node-red-roster.git"
+     },
+    "node-red": {
+        "nodes": {
+            "roster": "roster.js"
+        }
+    }
+}

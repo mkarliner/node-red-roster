@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    RED.nodes.registerType('roster',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:"Roster"},
+            indexProperty: {value: "", required: true},
+            timeout: {value: 0}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "db.png",
+        label: function() {
+            return this.name||"Roster";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="roster">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-indexProperty"><i class="icon-tag"></i>Name of property to index on</label>
+        <input type="text" id="node-input-indexProperty">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout"><i class="icon-tag"></i>Length of time before removing entries</label>
+        <input type="number" id="node-input-timeout">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="roster">
+    <p>Implements a roster of unique messages, optionally aged out.</p>
+</script>
