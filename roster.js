@@ -2,10 +2,18 @@
 module.exports = function(RED) {
     function Roster(config) {
         RED.nodes.createNode(this,config);
+        function objarray(obj){
+            keys = Object.keys(obj);
+            res = [];
+            for(var k = 0; k<keys.length; k++) {
+                res.push(obj[keys[k]]);
+            }
+            return res;
+        }
 		this.indexProperty = config.indexProperty;
 		this.timeout = config.timeout;
         var node = this;
-        var roster  = [];
+        var roster  = {};
         this.on('input', function(msg) {
 			var newEntry = true;
 			var payload = JSON.parse(msg.payload);
@@ -21,9 +29,10 @@ module.exports = function(RED) {
 				newEntry = false; 
 			}
             roster[payload[this.indexProperty]] = payload;
+
 			// Only send roster if it has changed.
 			if(newEntry == true) {
-	            node.send({payload: JSON.stringify(roster) });
+	            node.send({payload: JSON.stringify(objarray(roster)) });
 			}
         });
 		setInterval(function(){
@@ -41,7 +50,7 @@ module.exports = function(RED) {
 			}
 			// Only send roster if it has changed.
 			if(entryDeleted == true) {
-	            node.send({payload: JSON.stringify(outputRoster) });
+	            node.send({payload: JSON.stringify(objarray(outputRoster)) });
 			}
 		}, 1000)
     }
