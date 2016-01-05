@@ -13,15 +13,14 @@ module.exports = function(RED) {
 		this.indexProperty = config.indexProperty;
 		this.timeout = config.timeout;
         var node = this;
-        console.log("TJIS ", this)
         this.roster = {};
 
         this.on('input', function(msg) {
 			var newEntry = true;
-			var payload = JSON.parse(msg.payload);
+			var payload = msg.payload;
 			payload.rosterTimestamp = new Date();
             payload.rosterStatus = "active";
-			//console.log("ROS: ", payload, roster)
+            //console.log("PL", payload)
 			//Check for valid message
 			if(!payload[node.indexProperty]) {
 				node.error("Missing property " + node.indexProperty + " in incoming message", msg);
@@ -35,11 +34,11 @@ module.exports = function(RED) {
 
 			// Only send roster if it has changed.
 			if(newEntry == true) {
-	            node.send({payload: JSON.stringify(objarray(this.roster)) });
+	            node.send({payload: objarray(this.roster) });
 			}
         });
         function checkEntries(){
-        			var entryDeleted = false;
+        			var entryMarked = false;
         			for(var propertyName in this.roster) {
         				var entry = this.roster[propertyName];
         				var now = new Date();
@@ -48,14 +47,13 @@ module.exports = function(RED) {
         				if(entry.rosterTimestamp>0 && (idle > node.timeout)) {
         					//delete this.roster[propertyName];
                             this.roster[propertyName].rosterStatus = "inactive";
-                            console.log("DELETED ", propertyName)
-        					entryDeleted = true;
+        					entryMarked = true;
         				} 
         				//this.roster.push[this.roster[propertyName]];
         			}
         			// Only send roster if it has changed.
         			if(entryDeleted == true) {
-        	            node.send({payload: JSON.stringify(objarray(this.roster)) });
+        	            node.send({payload: objarray(this.roster) });
         			}
         		}
 		setInterval(checkEntries.bind(this), 1000)
