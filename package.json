@@ -1,6 +1,6 @@
 {
     "name"         : "node-red-contrib-roster",
-    "version"      : "0.0.4",
+    "version"      : "0.0.5",
     "author"	   : "Michael Karliner",
     "description"  : "Record sucessive unique messages and mark those older than a defined age ",
     "dependencies": {

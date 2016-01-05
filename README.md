@@ -1,13 +1,21 @@
 #Node Red Roster Node
 
-This node take a series of JSON encoded messages assumed to be numeric values or objects, parses them
-and stores them in a fixed sized FIFO array. Each time a message
-arrives, it sends out a JSON encoded version of the fifo.
+This node keeps a record of all unique messages to it
+and outputs an array of them. 'Unique' is defined
+as messages which contain a unique value of the index
+specified by the configuration parameter 'indexProperty'
 
-The node will also send an average of all the values in the fifo every _fifo-length_ messages 
-to the second output. This means the nodes can be cascaded to implement
-a round-robin style, in-core, time series database.
+The node keeps a record of the last time that each unique
+value was received. If the last message was less than
+'timeout' seconds ago, the entry is marked as active 
+otherwise it is marked as inactive.
 
-This node has been designed to be used with ThingStudio and the widgets which
-take roster inputs, such as the Sparkline widget.
-# node-red-roster
+Typically, this node is used to keep track of active
+devices. Each device sends a periodic message with say,
+a unique _deviceID_ to a single
+MQTT topic, which forwards the messages to the roster 
+node which uses _deviceID_ as its indexProperty.
+
+The roster array can then be used to show all known
+devices and their active state.
+
