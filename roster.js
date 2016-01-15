@@ -52,7 +52,7 @@ module.exports = function(RED) {
         				//this.roster.push[this.roster[propertyName]];
         			}
         			// Only send roster if it has changed.
-        			if(entryDeleted == true) {
+        			if(entryMarked == true) {
         	            node.send({payload: objarray(this.roster) });
         			}
         		}
